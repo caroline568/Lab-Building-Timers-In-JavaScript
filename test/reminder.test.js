@@ -1,25 +1,23 @@
-const { delayedReminder } = require('../src/reminder')
+const { delayedReminder } = require('../src/reminder');
 
-jest.useFakeTimers()
+jest.useFakeTimers();
 
 describe('delayedReminder', () => {
-  test('should log the message after the specified delay', async () => {
-    console.log = jest.fn() // Mock console.log
+  beforeEach(() => {
+    console.log = jest.fn();
+  });
 
-    const message = 'This is your reminder!'
-    const delay = 3000 // 3 seconds
+  test('should log message after delay', async () => {
+    const message = 'This is your reminder!';
+    const delay = 3000;
 
-    // Call the function
-    const reminderPromise = delayedReminder(message, delay)
+    const promise = delayedReminder(message, delay);
 
-    // Fast-forward the timer
-    jest.advanceTimersByTime(delay)
+    jest.advanceTimersByTime(delay);
 
-    // Await the promise
-    await reminderPromise
+    await promise;
 
-    // Verify the message was logged
-    expect(console.log).toHaveBeenCalledTimes(1)
-    expect(console.log).toHaveBeenCalledWith(message)
-  })
-})
+    expect(console.log).toHaveBeenCalledTimes(1);
+    expect(console.log).toHaveBeenCalledWith(message);
+  });
+});
